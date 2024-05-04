@@ -30,7 +30,10 @@ if __name__ == "__main__":
 
 ## After:
 1. Install Docker
-2. Run:
+```
+https://docs.docker.com/engine/install/
+```
+3. Run:
 ```
 $ docker compose up --build
 ```
