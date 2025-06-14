@@ -35,7 +35,11 @@ https://docs.docker.com/engine/install/
 ```
 3. Run:
 ```
-$ docker compose up --build
+$ docker compose up --build #To see the logs
+```
+or:
+```
+$ docker compose up -d --build #To avoid seeing the logs
 ```
 This server will start on port 5000 by default. You can change this in `app.py` by changing the following line to this:
 ```python
