@@ -58,4 +58,4 @@ Since this is a repository for a tutorial, the code should remain the same as th
 - https://medium.com/@abderraoufbenchoubane/setup-a-python-environment-with-docker-a4e38811e0d3
 - https://stackoverflow.com/questions/17042201/how-to-style-input-and-submit-button-with-css
   
-..and more, thank you all, stay healthy, see ya!!!!
+..thanks!
