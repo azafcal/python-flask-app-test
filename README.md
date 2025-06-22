@@ -57,5 +57,5 @@ Since this is a repository for a tutorial, the code should remain the same as th
 - https://medium.com/@letathenasleep/exposing-python-metrics-with-prometheus-c5c837c21e4d
 - https://medium.com/@abderraoufbenchoubane/setup-a-python-environment-with-docker-a4e38811e0d3
 - https://stackoverflow.com/questions/17042201/how-to-style-input-and-submit-button-with-css
-  
+
 ..thanks!
