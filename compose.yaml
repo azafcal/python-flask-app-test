@@ -1,7 +1,7 @@
 services:
   app:
     build: .
-    command: python3 apptest.py
+    command: python3 app.py
     ports:
       - 5000:5000
     volumes:
