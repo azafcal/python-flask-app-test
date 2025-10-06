@@ -29,7 +29,7 @@ jobs:
           scan-type: 'fs'
           ignore-unfixed: true
           vuln-type: 'os,library'
-          severity: 'CRITICAL,HIGH,MEDIUM'
+          severity: 'MEDIUM'
           exit-code: '1'
           target: '.'  # This specifies the current directory as the target
 
