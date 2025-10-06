@@ -21,16 +21,15 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Run Trivy vulnerability scanner on repository
-        uses: aquasecurity/trivy-action@master
-        with:
-          scan-type: 'fs'
-          ignore-unfixed: true
-          vuln-type: 'os,library'
-          severity: 'CRITICAL,HIGH,MEDIUM'
-          exit-code: '0'
-          target: '.'
-        continue-on-error: true 
+#      - name: Run Trivy vulnerability scanner on repository
+#        uses: aquasecurity/trivy-action@master
+#        with:
+#          scan-type: 'fs'
+#          ignore-unfixed: true
+#          vuln-type: 'os,library'
+#          severity: 'CRITICAL,HIGH,MEDIUM'
+#          exit-code: '0'
+#         target: '.'
 
       - name: Configure DockerHub credentials
         uses: docker/login-action@v2
