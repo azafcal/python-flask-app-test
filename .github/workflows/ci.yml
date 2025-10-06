@@ -61,7 +61,7 @@ jobs:
 
       - name: Push Docker Image to DockerHub
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/mordor_v5:${{ env.LATEST_RELEASE_TAG }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/lest-lab:${{ env.LATEST_RELEASE_TAG }}
 
       - name: Cleanup Docker credentials, image and cache
         run: |
