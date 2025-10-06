@@ -1,8 +1,16 @@
 name: Build Python Package and Publish
 
 on:
-  release:
-    types: [ released ]
+  push:
+    branches:
+      - main
+      - 'releases/v*'
+    tags:
+      - 'v*'
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
   build_and_push_image_to_dockerhub:
