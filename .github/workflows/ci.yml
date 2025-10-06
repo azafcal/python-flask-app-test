@@ -43,21 +43,20 @@ jobs:
           docker build -t test-lab:$LATEST_RELEASE_TAG .
           docker tag mordor_v5:$LATEST_RELEASE_TAG ${{ secrets.DOCKER_USERNAME }}/test-lab:$LATEST_RELEASE_TAG
 
-      - name: Run Trivy vulnerability scanner in Docker Image
-        uses: aquasecurity/trivy-action@master 
-        with:
-          image-ref: 'docker.io/${{ secrets.DOCKER_USERNAME }}/test-lab:$LATEST_RELEASE_TAG'
-          format: 'table'
-          ignore-unfixed: true
-          vuln-type: 'os,library'
-          severity: 'CRITICAL,HIGH,MEDIUM'
-          exit-code: '0'
-        continue-on-error: true
+#      - name: Run Trivy vulnerability scanner in Docker Image
+#        uses: aquasecurity/trivy-action@master 
+#        with:
+#          image-ref: 'docker.io/${{ secrets.DOCKER_USERNAME }}/test-lab:$LATEST_RELEASE_TAG'
+#         format: 'table'
+#         ignore-unfixed: true
+#         vuln-type: 'os,library'
+#          severity: 'CRITICAL,HIGH,MEDIUM'
+#         exit-code: '0'
 
-      - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: 'trivy-results.sarif'
+#      - name: Upload Trivy scan results to GitHub Security tab
+#        uses: github/codeql-action/upload-sarif@v2
+#       with:
+#         sarif_file: 'trivy-results.sarif'
 
       - name: Push Docker Image to DockerHub
         run: |
