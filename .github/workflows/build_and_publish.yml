@@ -49,7 +49,7 @@ jobs:
         run: |
           LATEST_RELEASE_TAG=$(echo $GITHUB_REF_NAME | cut -d'v' -f2)
           docker build -t test-lab:$LATEST_RELEASE_TAG .
-          docker tag mordor_v5:$LATEST_RELEASE_TAG ${{ secrets.DOCKER_USERNAME }}/test-lab:$LATEST_RELEASE_TAG
+          docker tag test-lab:$LATEST_RELEASE_TAG ${{ secrets.DOCKER_USERNAME }}/test-lab:$LATEST_RELEASE_TAG
 
 #      - name: Run Trivy vulnerability scanner in Docker Image
 #        uses: aquasecurity/trivy-action@master 
@@ -68,7 +68,7 @@ jobs:
 
       - name: Push Docker Image to DockerHub
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/lest-lab:${{ env.LATEST_RELEASE_TAG }}
+          docker push ${{ secrets.DOCKER_USERNAME }}/test-lab:${{ env.LATEST_RELEASE_TAG }}
 
       - name: Cleanup Docker credentials, image and cache
         run: |
@@ -79,4 +79,3 @@ jobs:
         run: |
           # Optionally remove DockerHub credentials (if using a token stored in Docker config file)
           rm ~/.docker/config.json || true
-          make aws-cleanup
