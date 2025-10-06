@@ -30,7 +30,6 @@ jobs:
           severity: 'MEDIUM'
           exit-code: '0'
           target: '.'
-        continue-on-error: true
 
       - name: Configure DockerHub credentials
         uses: docker/login-action@v2
