@@ -47,7 +47,7 @@ jobs:
       
       - name: Build and tag Docker Image
         run: |
-          LATEST_RELEASE_TAG=$(echo $GITHUB_REF_NAME | cut -d'v' -f2 | tr -cd '[:alnum:]._-')
+          LATEST_RELEASE_TAG=$(echo $GITHUB_REF_NAME | cut -d'v' -f2)
           docker build -t test-lab:$LATEST_RELEASE_TAG .
           docker tag test-lab:$LATEST_RELEASE_TAG ${{ secrets.DOCKER_USERNAME }}/test-lab:$LATEST_RELEASE_TAG
 
