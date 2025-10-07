@@ -46,8 +46,10 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       
       - name: Build and tag Docker Image
+        id: build-and-tag
         run: |
           LATEST_RELEASE_TAG=$(echo $GITHUB_REF_NAME | cut -d'v' -f2)
+          echo "LATEST_RELEASE_TAG=$LATEST_RELEASE_TAG" >> $GITHUB_ENV
           docker build -t test-lab:$LATEST_RELEASE_TAG .
           docker tag test-lab:$LATEST_RELEASE_TAG ${{ secrets.DOCKER_USERNAME }}/test-lab:$LATEST_RELEASE_TAG
 
