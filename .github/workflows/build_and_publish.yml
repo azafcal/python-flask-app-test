@@ -1,15 +1,8 @@
 name: Build Python Package and Publish
 
 on:
-  push:
-    branches:
-      - main
-      - 'releases/v*'
-    tags:
-      - 'v*'
-  pull_request:
-    branches:
-      - main
+  release:
+    types: [ published ]
   workflow_dispatch:
 
 jobs:
