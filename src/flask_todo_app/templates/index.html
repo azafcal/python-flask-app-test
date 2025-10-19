@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Todo App</title>
+</head>
+<body>
+    <h1>Todo List</h1>
+    <form method="POST">
+        <input type="text" name="content" placeholder="Add a task">
+        <input type="submit" value="Add Task">
+    </form>
+    
+    <div>
+        {% for task in tasks %}
+            <div>
+                <span>{{ task.content }}</span>
+                <a href="/update/{{ task.id }}">Update</a>
+                <a href="/delete/{{ task.id }}">Delete</a>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
