@@ -38,7 +38,6 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-
       - name: Run Trivy vulnerability scanner on repository
         uses: aquasecurity/trivy-action@master
         with:
@@ -50,6 +49,7 @@ jobs:
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH,MEDIUM'
           scanners: 'vuln,config,secret,license' # Scan for vulnerabilities, configs, secrets, and licenses
+          exit-code: '1'
 
       - name: Build, tag  and push Docker image to Dockerhub (amd64)
         run: |
