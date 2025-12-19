@@ -46,7 +46,7 @@ jobs:
           IMAGE_URI="${{ secrets.DOCKER_USERNAME }}/testing:${LATEST_RELEASE_TAG}"
           echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
 
-          docker buildx build --platform linux/arm64 -t "$IMAGE_URI" --push .
+          docker buildx build --platform linux/amd64 -t "$IMAGE_URI" --push .
 
       - name: Run Trivy vulnerability scanner on Docker image
         uses: aquasecurity/trivy-action@master
