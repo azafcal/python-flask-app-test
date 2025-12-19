@@ -29,8 +29,8 @@ jobs:
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }} # Use the secret you created
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }} # Use the secret you created
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
@@ -43,7 +43,7 @@ jobs:
 
           # Buildx setup and push directly to the ECR repository using fully-qualified image name
           docker buildx create --use
-          IMAGE_URI="${{ secrets.DOCKERHUB_USERNAME }}/testing:${LATEST_RELEASE_TAG}"
+          IMAGE_URI="${{ secrets.DOCKER_USERNAME }}/testing:${LATEST_RELEASE_TAG}"
           echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
 
           docker buildx build --platform linux/arm64 -t "$IMAGE_URI" --push .
