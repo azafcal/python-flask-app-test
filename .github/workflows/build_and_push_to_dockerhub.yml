@@ -1,4 +1,4 @@
-name: Build hikvisio_door_controller image and publish on AWS ECR
+name: Build app image and publish on Dockerhub
 
 on:
   release:
