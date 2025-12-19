@@ -65,17 +65,16 @@ jobs:
         with:
           image-ref: ${{ env.IMAGE_URI }}
           format: 'sarif'
-          output: 'trivy-image-results.sarif'
+          output: 'trivy-repo-results.sarif'
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH,MEDIUM'
           scanners: 'vuln,config,secret,license' # Scan for vulnerabilities, configs, secrets, and licenses
 
-      - name: Upload Trivy repository SARIF to GitHub Security
+      - name: Upload Trivy SARIF to GitHub Security
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: 'trivy-repo-results.sarif'
-          wait-for-processing: true # Wait for the results to be processed by GitHub
 
       - name: (No-op) Image already pushed during build
         run: |
