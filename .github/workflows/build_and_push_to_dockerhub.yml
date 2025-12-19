@@ -1,8 +1,7 @@
 name: Build app image and publish on Dockerhub
 
 on:
-  release:
-    types: [ released ]
+  workflow_dispatch:
 
 jobs:
   build_and_push_image_to_dockerhub:
@@ -35,7 +34,17 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Build, tag  and push Docker image to Dockerhub (arm64)
+
+      - name: Run Trivy vulnerability scanner on repository
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs .'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH,MEDIUM'
+          exit-code: '1'
+
+      - name: Build, tag  and push Docker image to Dockerhub (amd64)
         run: |
           # Derive release tag (strip leading 'v' if present) and export to subsequent steps
           LATEST_RELEASE_TAG=$(echo "$GITHUB_REF_NAME" | sed 's/^v//')
@@ -63,15 +72,6 @@ jobs:
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: 'trivy-repo-results.sarif'
-
-      - name: Run Trivy vulnerability scanner on repository
-        uses: aquasecurity/trivy-action@master
-        with:
-          scan-type: 'fs .'
-          ignore-unfixed: true
-          vuln-type: 'os,library'
-          severity: 'CRITICAL,HIGH,MEDIUM'
-          exit-code: '1'
 
       - name: (No-op) Image already pushed during build
         run: |
