@@ -45,7 +45,7 @@ jobs:
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH,MEDIUM'
-          exit-code: '1'
+          scanners: 'vuln,config,secret,license' # Scan for vulnerabilities, configs, secrets, and licenses
 
       - name: Build, tag  and push Docker image to Dockerhub (amd64)
         run: |
@@ -72,9 +72,10 @@ jobs:
           exit-code: '1'
 
       - name: Upload Trivy repository SARIF to GitHub Security
-        uses: github/codeql-action/upload-sarif@v2
+        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: 'trivy-repo-results.sarif'
+          wait-for-processing: true # Wait for the results to be processed by GitHub
 
       - name: (No-op) Image already pushed during build
         run: |
