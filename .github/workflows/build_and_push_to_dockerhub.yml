@@ -2,7 +2,7 @@ name: Build app image and publish on Dockerhub
 
 on:
   release:
-    types: [ published ]
+    types: [ released ]
 
 jobs:
   build_and_push_image_to_dockerhub:
