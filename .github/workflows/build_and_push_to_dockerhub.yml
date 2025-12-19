@@ -83,7 +83,3 @@ jobs:
       - name: (No-op) Image already pushed during build
         run: |
           echo "Image was pushed during the build step to $IMAGE_URI"
-
-      - name: Cleanup aws credentials
-        run: |
-          make aws-cleanup
