@@ -1,0 +1,82 @@
+name: Build hikvisio_door_controller image and publish on AWS ECR
+
+on:
+  release:
+    types: [ published ]
+
+jobs:
+  build_and_push_image_to_dockerhub:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: [ '3.12' ]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup python 3.10
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.10"
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }} # Use the secret you created
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build, tag  and push Docker image to Dockerhub (arm64)
+        run: |
+          # Derive release tag (strip leading 'v' if present) and export to subsequent steps
+          LATEST_RELEASE_TAG=$(echo "$GITHUB_REF_NAME" | sed 's/^v//')
+          echo "LATEST_RELEASE_TAG=$LATEST_RELEASE_TAG" >> $GITHUB_ENV
+
+          # Buildx setup and push directly to the ECR repository using fully-qualified image name
+          docker buildx create --use
+          IMAGE_URI="${{ secrets.DOCKERHUB_USERNAME }}/testing:${LATEST_RELEASE_TAG}"
+          echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
+
+          docker buildx build --platform linux/arm64 -t "$IMAGE_URI" --push .
+
+      - name: Run Trivy vulnerability scanner on Docker image
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{ env.IMAGE_URI }}
+          format: 'sarif'
+          output: 'trivy-image-results.sarif'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH,MEDIUM'
+          exit-code: '1'
+
+      - name: Upload Trivy repository SARIF to GitHub Security
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: 'trivy-repo-results.sarif'
+
+      - name: Run Trivy vulnerability scanner on repository
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs .'
+          ignore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH,MEDIUM'
+          exit-code: '1'
+
+      - name: (No-op) Image already pushed during build
+        run: |
+          echo "Image was pushed during the build step to $IMAGE_URI"
+
+      - name: Cleanup aws credentials
+        run: |
+          make aws-cleanup
