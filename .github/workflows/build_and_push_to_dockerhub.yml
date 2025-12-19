@@ -38,7 +38,10 @@ jobs:
       - name: Run Trivy vulnerability scanner on repository
         uses: aquasecurity/trivy-action@master
         with:
-          scan-type: 'fs .'
+          scan-type: 'fs'
+          scan-ref: . # Scans the current directory (root of the repo)
+          format: 'github' # Format output for GitHub Advanced Security
+          output: 'trivy-results.sarif' # Save results to a SARIF file
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH,MEDIUM'
