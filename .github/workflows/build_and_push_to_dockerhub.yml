@@ -6,10 +6,6 @@ on:
 jobs:
   build_and_push_image_to_dockerhub:
     runs-on: ubuntu-latest
-    # permissions:
-      # security-events: write   # ← Essa linha resolve o erro de upload
-      # contents: read           # Já é padrão, mas bom manter explícito
-      # actions: read          # Opcional, só se precisar
     strategy:
       fail-fast: false
       matrix:
