@@ -6,9 +6,9 @@ on:
 jobs:
   build_and_push_image_to_dockerhub:
     runs-on: ubuntu-latest
-    permissions:
-      security-events: write   # ← Essa linha resolve o erro de upload
-      contents: read           # Já é padrão, mas bom manter explícito
+    # permissions:
+      # security-events: write   # ← Essa linha resolve o erro de upload
+      # contents: read           # Já é padrão, mas bom manter explícito
       # actions: read          # Opcional, só se precisar
     strategy:
       fail-fast: false
@@ -42,9 +42,8 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           scan-type: 'fs'
-          scan-ref: . # Scans the current directory (root of the repo)
-          format: 'github' # Format output for GitHub Advanced Security
-          output: 'trivy-results.sarif' # Save results to a SARIF file
+          scan-ref: . # Scans the current directory (root of the repo
+          format: 'table'
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH,MEDIUM'
@@ -68,8 +67,7 @@ jobs:
         uses: aquasecurity/trivy-action@master
         with:
           image-ref: ${{ env.IMAGE_URI }}
-          format: 'sarif'
-          output: 'trivy-repo-results.sarif'
+          format: 'table'
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH,MEDIUM'
